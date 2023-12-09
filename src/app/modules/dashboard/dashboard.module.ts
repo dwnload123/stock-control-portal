@@ -11,13 +11,16 @@ import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { ChartModule } from 'primeng/chart';
+import { SharedModule } from '../../shared/shared.module';
 
 const primeNG = [
   SidebarModule,
   ButtonModule,
   ToolbarModule,
   CardModule,
-  ToastModule
+  ToastModule,
+  ChartModule,
 ]
 
 @NgModule({
@@ -30,6 +33,7 @@ const primeNG = [
     ReactiveFormsModule,
     RouterModule.forChild(DASHBOARD_ROUTES),
     ...primeNG,
+    SharedModule,
   ],
   providers: [
     MessageService,
