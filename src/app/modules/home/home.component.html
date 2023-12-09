@@ -5,7 +5,7 @@
       <!--LOGIN-->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm()">
         <p-card
-          styleClass="mt-10"
+          styleClass="mt-10 p-4"
           header="Login"
           subheader="Faça login com sua conta existente!"
           *ngIf="loginCard"
@@ -36,7 +36,7 @@
       <!--SIGNUP-->
       <form [formGroup]="signUpForm" (ngSubmit)="onSubmitSignUpForm()">
         <p-card
-          styleClass="mt-10"
+          styleClass="mt-10 p-4"
           header="Criar conta"
           subheader="Crie já sua conta gratuita!"
           *ngIf="!loginCard"
