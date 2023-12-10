@@ -16,7 +16,7 @@ export class ProductsDataTransferService {
     }
   }
 
-  getProductDatas() {
+  getProductDatas(): Array<GetAllProductsResponse> {
     this.productsDataEmitter$
       .pipe(
         take(1),
@@ -27,6 +27,7 @@ export class ProductsDataTransferService {
           if(response) this.productDatas = response;
         }
       });
+    return this.productDatas;
   }
 
 }
