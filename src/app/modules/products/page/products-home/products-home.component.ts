@@ -31,8 +31,6 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
     if(productsLoaded.length > 0) {
       this.productsDatas = productsLoaded;
     } else this.getAllProductsDatas();
-
-    console.log('productsDatas', this.productsDatas)
   }
 
   getAllProductsDatas(): void {
