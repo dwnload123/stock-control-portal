@@ -11,7 +11,8 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { CookieService } from 'ngx-cookie-service';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 const primeModules = [
   CardModule,
@@ -33,7 +34,7 @@ const primeModules = [
     AppRoutingModule,
     ...primeModules,
   ],
-  providers: [CookieService, MessageService],
+  providers: [CookieService, MessageService, ConfirmationService, DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

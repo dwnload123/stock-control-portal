@@ -20,6 +20,7 @@ import { ProductsHomeComponent } from './page/products-home/products-home.compon
 import { RouterModule } from '@angular/router';
 import { PRODUCTS_ROUTES } from './products.routing';
 import { ProductsTableComponent } from './components/products-table/products-table.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
 
 const primeNG = [
   CardModule,
@@ -34,12 +35,14 @@ const primeNG = [
   DropdownModule,
   ConfirmDialogModule,
   TooltipModule,
+  DropdownModule,
 ]
 
 @NgModule({
   declarations: [
     ProductsHomeComponent,
-    ProductsTableComponent
+    ProductsTableComponent,
+    ProductFormComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,7 @@ const primeNG = [
     SharedModule,
     HttpClientModule,
     ...primeNG,
-    RouterModule.forChild(PRODUCTS_ROUTES)
+    RouterModule.forChild(PRODUCTS_ROUTES),
   ],
   providers: [
     DialogService,

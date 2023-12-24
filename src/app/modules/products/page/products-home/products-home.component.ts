@@ -1,10 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil, map } from 'rxjs';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductsDataTransferService } from '../../../../shared/services/products/products-data-transfer.service';
 import { Router } from '@angular/router';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { EventAction } from 'src/app/models/interfaces/products/event/EventAction';
+import { DeleteProductAction } from 'src/app/models/interfaces/products/event/DeleteProductAction';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ProductFormComponent } from '../../components/product-form/product-form.component';
 
 @Component({
   selector: 'app-products-home',
@@ -13,12 +17,15 @@ import { MessageService } from 'primeng/api';
 export class ProductsHomeComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public productsDatas: Array<GetAllProductsResponse> = [];
+  private ref!: DynamicDialogRef;
 
   constructor(
     private productsService: ProductsService,
     private productsDTTransfer: ProductsDataTransferService,
     private router: Router,
     private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +62,75 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  handleProductAction(event: EventAction): void {
+    if(event) {
+      this.ref = this.dialogService.open(ProductFormComponent, {
+        header: event?.action,
+        width: '70%',
+        contentStyle: { overflow: 'auto' },
+        baseZIndex: 10000,
+        maximizable: true,
+        data: {
+          event: event,
+          productDatas: this.productsDatas,
+        }
+      });
+      this.ref.onClose
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => this.getAllProductsDatas()
+        })
+    }
+  }
+
+  handleDeleteProductAction(event: {
+    product_id: string;
+    productName: string;
+  }): void {
+    if(event) {
+      this.confirmationService.confirm({
+        message: `Confirma a exclusão do produto: ${event.productName}`,
+        header: 'Confirmação de exclusão',
+        icon: 'pi pi-exclamation-triangule',
+        acceptLabel: 'Sim',
+        rejectLabel: 'Não',
+        accept: () => this.deleteProduct(event?.product_id),
+      })
+    }
+  }
+
+  deleteProduct(product_id: string) {
+    if(product_id) {
+      this.productsService.deleteProduct(product_id)
+        .pipe(
+          takeUntil(this.destroy$),
+        )
+        .subscribe({
+          next: (response) => {
+            if(response) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Produto removido com sucesso!',
+                life: 2500,
+              });
+            }
+
+            this.getAllProductsDatas();
+          },
+          error: (err) => {
+            console.log(err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao remover produto!',
+              life: 2500,
+            });
+          }
+        })
+    }
   }
 
   ngOnDestroy(): void {
