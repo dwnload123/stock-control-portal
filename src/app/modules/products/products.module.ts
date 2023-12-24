@@ -48,7 +48,7 @@ const primeNG = [
     SharedModule,
     HttpClientModule,
     ...primeNG,
-    RouterModule.forChild(PRODUCTS_ROUTES)
+    RouterModule.forChild(PRODUCTS_ROUTES),
   ],
   providers: [
     DialogService,
