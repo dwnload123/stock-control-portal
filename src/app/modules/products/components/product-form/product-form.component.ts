@@ -11,7 +11,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EventAction } from 'src/app/models/interfaces/products/event/EventAction';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
 import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
-import { productEvent } from 'src/app/models/enums/products';
+import { productEvent } from 'src/app/models/enums/products/products';
 import { EditProductRequest } from 'src/app/models/interfaces/products/request/EditProductRequest';
 
 @Component({
