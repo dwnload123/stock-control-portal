@@ -22,7 +22,7 @@
     <p-button
       icon="pi pi-ticket"
       label="Categorias"
-      routerLink="/categorias"
+      routerLink="/categories"
       styleClass="bg-indigo-800 p-button-secondary"
       routerLinkActive="exact_route"
       class="mr-2"
@@ -30,10 +30,10 @@
     <p-button
       icon="pi pi-credit-card"
       label="Efetuar Vendas"
-      routerLink="/sell"
+      routerLink="/products"
       styleClass="bg-indigo-800 p-button-secondary"
-      routerLinkActive="exact_route"
       class="mr-2"
+      (click)="handleSaleProduct()"
     />
   </div>
 
