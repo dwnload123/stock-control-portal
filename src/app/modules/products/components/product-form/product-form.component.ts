@@ -13,6 +13,7 @@ import { GetAllProductsResponse } from 'src/app/models/interfaces/products/respo
 import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
 import { productEvent } from 'src/app/models/enums/products/products';
 import { EditProductRequest } from 'src/app/models/interfaces/products/request/EditProductRequest';
+import { SaleProductRequest } from 'src/app/models/interfaces/products/request/SaleProductRequest';
 
 @Component({
   selector: 'app-product-form',
@@ -28,6 +29,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   };
   public productDatas!: Array<GetAllProductsResponse>;
   public productSelectedDatas!: GetAllProductsResponse;
+  public saleProductSelected!: GetAllProductsResponse;
   public addProductForm = this.formBuilder.group({
     name: ['', Validators.required],
     price: ['', Validators.required],
@@ -41,6 +43,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     description: ['', Validators.required],
     amount: [0, Validators.required],
     category_id: ['', Validators.required],
+  })
+  public saleProductForm = this.formBuilder.group({
+    amount: [0, Validators.required],
+    product_id: ['', Validators.required],
   })
   public renderDropdown = false;
   public addProductAction = productEvent.ADD_PRODUCT_EVENT;
@@ -155,6 +161,43 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         })
 
       this.editProductForm.reset();
+    }
+  }
+
+  handleSubmitSaleProduct(): void {
+    if(this.saleProductForm.value && this.saleProductForm.valid) {
+      const requestDatas: SaleProductRequest = {
+        amount: this.saleProductForm.value.amount as number,
+        product_id: this.saleProductForm.value.product_id as string,
+      }
+
+      this.productService.saleProduct(requestDatas)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            if(response) {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Venda efetuada com sucesso!',
+                life: 2500,
+              });
+              this.saleProductForm.reset();
+              this.getProductDatas();
+              this.router.navigate(['/dashboard']);
+            }
+          },
+          error: (err) => {
+            console.log(err);
+            this.saleProductForm.reset();
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: 'Erro ao vender produto!',
+              life: 2500,
+            })
+          }
+        })
     }
   }
 

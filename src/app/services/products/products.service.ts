@@ -5,9 +5,11 @@ import { Observable, map } from 'rxjs';
 import { environments } from 'src/app/environments/environments';
 import { CreateProductRequest } from 'src/app/models/interfaces/products/request/CreateProductRequest';
 import { EditProductRequest } from 'src/app/models/interfaces/products/request/EditProductRequest';
+import { SaleProductRequest } from 'src/app/models/interfaces/products/request/SaleProductRequest';
 import { CreateProductResponse } from 'src/app/models/interfaces/products/response/CreateProductResponse';
 import { DeleteProductResponse } from 'src/app/models/interfaces/products/response/DeleteProductResponse';
 import { GetAllProductsResponse } from 'src/app/models/interfaces/products/response/GetAllProductsResponse';
+import { SaleProductResponse } from 'src/app/models/interfaces/products/response/SaleProductResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +55,21 @@ export class ProductsService {
       `${this.API_URL}/product/edit`,
       requestDatas,
       this.httpOptions,
+    )
+  }
+
+  saleProduct(requestsDatas: SaleProductRequest): Observable<SaleProductResponse> {
+    return this.http.put<SaleProductResponse>(
+      `${this.API_URL}/product/sale`,
+      {
+        amount: requestsDatas?.amount,
+      },
+      {
+        ...this.httpOptions,
+        params: {
+          product_id: requestsDatas?.product_id,
+        }
+      }
     )
   }
 
