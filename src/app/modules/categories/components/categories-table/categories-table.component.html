@@ -40,6 +40,8 @@
             <th>
               <div class="flex justify-content-center">
                 <p-button
+                  pTooltip="Adicionar Categoria"
+                  pTooltipPosition="top"
                   styleClass="p-button-info"
                   icon="pi pi-plus"
                   label="Adicionar"
@@ -58,12 +60,21 @@
                 <button
                   pButton
                   pRipple
+                  pTooltip="Editar Categoria"
+                  pTooltipPosition="top"
                   icon="pi pi-pencil"
                   class="p-button-rounded p-button-warning"
+                  (click)="handleCategoryEvent(
+                    editCategoryAction,
+                    category?.id,
+                    category?.name
+                  )"
                 ></button>
                 <button
                   pButton
                   pRipple
+                  pTooltip="Remover Categoria"
+                  pTooltipPosition="top"
                   icon="pi pi-trash"
                   class="p-button-rounded p-button-danger"
                   (click)="handleDeleteCategoryEvent(category.id, category.name)"
